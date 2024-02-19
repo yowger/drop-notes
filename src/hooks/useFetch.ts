@@ -6,7 +6,7 @@ function useFetchData<T>(fetchFunction: TUseFetchDataProps<T>) {
     const [data, setData] = useState<T | null>(null)
     const [isLoading, setLoading] = useState(true)
     const [isSuccess, setSuccess] = useState(false)
-    const [error, setError] = useState<T | null>(null)
+    const [error, setError] = useState<null | Error>(null)
 
     useEffect(() => {
         async function fetchData() {
@@ -16,7 +16,7 @@ function useFetchData<T>(fetchFunction: TUseFetchDataProps<T>) {
                 setData(data)
                 setSuccess(true)
             } catch (error) {
-                setError(error as T)
+                setError(error as Error)
             } finally {
                 setLoading(false)
             }
