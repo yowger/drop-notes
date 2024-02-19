@@ -1,0 +1,94 @@
+{
+    "notes": [
+        {
+            "id": "1",
+            "title": "Implement Login Page",
+            "description": "Create a login page with email and password fields.",
+            "status": "TODO"
+        },
+        {
+            "id": "2",
+            "title": "Refactor API Calls",
+            "description": "Update API calls to use Axios for better error handling.",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "3",
+            "title": "Write Unit Tests",
+            "description": "Add unit tests for components using Jest and React Testing Library.",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "4",
+            "title": "Fix Styling Issues",
+            "description": "Resolve CSS bugs causing layout issues on smaller screens.",
+            "status": "TODO"
+        },
+        {
+            "id": "5",
+            "title": "Optimize Performance",
+            "description": "Identify and fix performance bottlenecks in the application.",
+            "status": "IN_PROGRESS"
+        },
+        {
+            "id": "6",
+            "title": "Add Dark Mode",
+            "description": "Implement a dark mode feature using CSS variables.",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "7",
+            "title": "Update Documentation",
+            "description": "Improve the project documentation for better readability.",
+            "status": "TODO"
+        },
+        {
+            "id": "8",
+            "title": "Integrate Redux",
+            "description": "Integrate Redux for state management in the application.",
+            "status": "IN_PROGRESS"
+        },
+        {
+            "id": "9",
+            "title": "Deploy to Production",
+            "description": "Prepare and deploy the application to a production server.",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "10",
+            "title": "Fix Navigation Bug",
+            "description": "Investigate and fix navigation issue causing links to break.",
+            "status": "TODO"
+        },
+        {
+            "id": "11",
+            "title": "Implement Form Validation",
+            "description": "Add client-side form validation using Formik and Yup.",
+            "status": "IN_PROGRESS"
+        },
+        {
+            "id": "12",
+            "title": "Add Animation Effects",
+            "description": "Enhance user experience with animated transitions between pages.",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "13",
+            "title": "Update Dependency Versions",
+            "description": "Update project dependencies to the latest stable versions.",
+            "status": "TODO"
+        },
+        {
+            "id": "14",
+            "title": "Refactor Redux Store",
+            "description": "Simplify and optimize the structure of the Redux store.",
+            "status": "IN_PROGRESS"
+        },
+        {
+            "id": "15",
+            "title": "Implement Responsive Design",
+            "description": "Ensure the application is fully responsive across all devices.",
+            "status": "COMPLETED"
+        }
+    ]
+}
