@@ -19,7 +19,7 @@ export default function Note({ note, handleDragStart }: INoteProps) {
         >
             <div>
                 <h1 className="text-base mb-2 font-medium text-slate-900">
-                    {note.id} {note.title}
+                    {note.title}
                 </h1>
             </div>
 

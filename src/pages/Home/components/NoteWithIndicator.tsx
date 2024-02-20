@@ -2,6 +2,7 @@ import Note from "./Note"
 import NoteDropIndicator from "./NoteDropIndicator"
 
 import type { INote } from "../types/note"
+import { motion } from "framer-motion"
 
 interface INoteWithIndicatorProps {
     note: INote
@@ -18,7 +19,9 @@ export default function NoteWithIndicator({
     return (
         <div>
             <NoteDropIndicator id={note.id} noteStatus={note.status} />
-            <Note note={note} handleDragStart={handleDragStart} />
+            <motion.div layout layoutId={note.id}>
+                <Note note={note} handleDragStart={handleDragStart} />
+            </motion.div>
         </div>
     )
 }
