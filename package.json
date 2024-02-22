@@ -11,6 +11,8 @@
     "serve-json": "json-server --watch src/database/db.json --port 8000"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.1",
+    "@tabler/icons-react": "^2.47.0",
     "axios": "^1.6.7",
     "framer-motion": "^11.0.5",
     "json-server": "^1.0.0-alpha.23",

@@ -1,5 +1,8 @@
+import { useState } from "react"
+
 import useNotes from "../hooks/useNotes"
 
+import NoteDropIndicator from "./NoteDropIndicator"
 import NoteWithIndicator from "./NoteWithIndicator"
 
 import type { INote, TNoteStatus } from "../types/note"
@@ -11,6 +14,7 @@ interface INoteListProps {
 
 export default function NoteList({ notes, type }: INoteListProps) {
     const { reorderNotes } = useNotes()
+    const [isDragOVer, setIsDragOver] = useState(false)
 
     const handleDragStart = (
         note: INote,
@@ -21,9 +25,23 @@ export default function NoteList({ notes, type }: INoteListProps) {
 
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault()
+
+        highlightIndicator(event)
+
+        setIsDragOver(true)
+    }
+
+    const handleDragLeave = () => {
+        setIsDragOver(false)
+
+        clearHighlightIndicators()
     }
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        setIsDragOver(false)
+
+        clearHighlightIndicators()
+
         const noteId = event.dataTransfer.getData("note_id")
 
         const notesIndicators = getNotesIndicator()
@@ -67,11 +85,36 @@ export default function NoteList({ notes, type }: INoteListProps) {
         return nearestIndicator
     }
 
+    const highlightIndicator = (event: React.DragEvent<HTMLDivElement>) => {
+        const notesIndicators = getNotesIndicator()
+        clearHighlightIndicators(notesIndicators)
+
+        const nearestIndicator = getNearestIndicator(
+            event.clientY,
+            notesIndicators
+        )
+
+        if (nearestIndicator) {
+            nearestIndicator.classList.add("bg-slate-200")
+        }
+    }
+
+    const clearHighlightIndicators = (indicators?: Element[]) => {
+        const currentIndicators = indicators || getNotesIndicator()
+
+        currentIndicators.forEach((indicator) => {
+            indicator.classList.remove("bg-slate-200")
+        })
+    }
+
     return (
         <div
             onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className="flex flex-col gap-y-3"
+            className={`min-h-screen flex flex-col px-1.5 md:px-3 lg:px-4 border-2 border-dashed ${
+                isDragOVer ? "border-slate-200" : "border-transparent"
+            }`}
         >
             {notes.map((note) => (
                 <NoteWithIndicator
@@ -80,6 +123,7 @@ export default function NoteList({ notes, type }: INoteListProps) {
                     handleDragStart={handleDragStart}
                 />
             ))}
+            <NoteDropIndicator id="-1" noteStatus={type} />
         </div>
     )
 }

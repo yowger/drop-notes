@@ -9,5 +9,11 @@ export default function NoteDropIndicator({
     id,
     noteStatus,
 }: INoteDropIndicatorProps) {
-    return <div data-note-id={id} data-note-type={noteStatus} className="" />
+    return (
+        <div
+            data-note-id={id}
+            data-note-type={noteStatus}
+            className="h-[6px] my-[5px]"
+        />
+    )
 }

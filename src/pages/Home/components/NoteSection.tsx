@@ -7,15 +7,21 @@ interface INoteSectionProps {
     title: string
     type: TNoteStatus
     notes: INote[]
+    Icon: React.ReactNode
 }
 
-export default function NoteSection({ title, notes, type }: INoteSectionProps) {
+export default function NoteSection({
+    title,
+    notes,
+    type,
+    Icon,
+}: INoteSectionProps) {
     const filteredNotes = notes.filter((note) => note.status === type)
-    const notesLength = notes.length
+    const notesLength = filteredNotes.length
 
     return (
         <section className="">
-            <NoteTitle title={title} notesLength={notesLength} />
+            <NoteTitle title={title} notesLength={notesLength} Icon={Icon} />
             <NoteList notes={filteredNotes} type={type} />
         </section>
     )

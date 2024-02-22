@@ -17,11 +17,11 @@ export default function NoteWithIndicator({
     handleDragStart,
 }: INoteWithIndicatorProps) {
     return (
-        <div>
+        <>
             <NoteDropIndicator id={note.id} noteStatus={note.status} />
             <motion.div layout layoutId={note.id}>
                 <Note note={note} handleDragStart={handleDragStart} />
             </motion.div>
-        </div>
+        </>
     )
 }
