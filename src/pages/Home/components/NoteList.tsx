@@ -16,7 +16,7 @@ export default function NoteList({ notes, type }: INoteListProps) {
     const { reorderNotes } = useNotes()
     const [isDragOVer, setIsDragOver] = useState(false)
 
-    const handleDragStart = (
+    const handleNoteDragStart = (
         note: INote,
         event: React.DragEvent<HTMLDivElement>
     ) => {
@@ -120,7 +120,7 @@ export default function NoteList({ notes, type }: INoteListProps) {
                 <NoteWithIndicator
                     key={note.id}
                     note={note}
-                    handleDragStart={handleDragStart}
+                    handleDragStart={handleNoteDragStart}
                 />
             ))}
             <NoteDropIndicator id="-1" noteStatus={type} />

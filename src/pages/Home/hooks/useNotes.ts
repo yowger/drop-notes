@@ -24,7 +24,7 @@ export default function useNotes() {
         noteId: string,
         status: TNoteStatus
     ) => {
-        // if (noteIdToTransfer !== noteId) return
+        if (noteIdToTransfer === noteId) return
 
         let notesCopy: INote[] = [...notes]
 

@@ -20,7 +20,7 @@ export default function NoteSection({
     const notesLength = filteredNotes.length
 
     return (
-        <section className="">
+        <section className="flex flex-col gap-3">
             <NoteTitle title={title} notesLength={notesLength} Icon={Icon} />
             <NoteList notes={filteredNotes} type={type} />
         </section>

@@ -10,7 +10,7 @@ export default function NoteBoard() {
     const { notes } = useNotes()
 
     return (
-        <div className="w-full grid grid-cols-3">
+        <div className="grid grid-cols-3">
             <NoteSection
                 title="Todo"
                 notes={notes}
