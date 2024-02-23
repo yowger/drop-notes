@@ -6,7 +6,7 @@ interface INoteTitle {
 
 export default function NoteTitle({ title, notesLength, Icon }: INoteTitle) {
     return (
-        <div className="bg-white border-2 rounded-md p-3 mx-1.5 md:mx-3 lg:mx-4">
+        <div className="bg-white border rounded-md p-3 mx-1.5 md:mx-3 lg:mx-4">
             <div className="flex justify-between items-center">
                 <div className="flex items-center">
                     <span className="mr-2.5">{Icon}</span>

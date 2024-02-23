@@ -20,7 +20,7 @@
         },
         {
             "id": "4",
-            "title": "Fix Styling Issues",
+            "title": "Velit voluptate proident ullamco ut Lorem ea dolore aute ut laboris aliqua ut. Magna id Lorem enim nisi duis pariatur ad do. Minim amet nisi veniam id. Fugiat fugiat quis laboris aute proident nostrud laborum.",
             "description": "Resolve CSS bugs causing layout issues on smaller screens.",
             "status": "TODO"
         },
@@ -89,6 +89,30 @@
             "title": "Implement Responsive Design",
             "description": "Ensure the application is fully responsive across all devices.",
             "status": "COMPLETED"
+        },
+        {
+            "id": "16",
+            "title": "Refactor Backend APIs",
+            "description": "Optimize backend APIs for better performance and scalability. Refactor code to adhere to best practices and improve maintainability.",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "17",
+            "title": "Add User Authentication",
+            "description": "Implement user authentication functionality using JWT tokens. Secure API endpoints and restrict access to authenticated users only.",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "18",
+            "title": "Integrate Payment Gateway",
+            "description": "Integrate a payment gateway to enable users to make purchases within the application. Ensure secure payment processing and transaction management.",
+            "status": "COMPLETED"
+        },
+        {
+            "id": "19",
+            "title": "Improve SEO",
+            "description": "Optimize the application for search engines to improve visibility and ranking. Implement SEO best practices such as meta tags, sitemaps, and structured data.",
+            "status": "TODO"
         }
     ]
 }

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { AnimatePresence } from "framer-motion"
 
 import useNotes from "../hooks/useNotes"
 
@@ -112,18 +113,20 @@ export default function NoteList({ notes, type }: INoteListProps) {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`min-h-screen flex flex-col px-1.5 md:px-3 lg:px-4 border-2 border-dashed ${
+            className={`flex-1 flex flex-col px-1.5 md:px-3 lg:px-4 border-2 border-dashed ${
                 isDragOVer ? "border-slate-200" : "border-transparent"
             }`}
         >
-            {notes.map((note) => (
-                <NoteWithIndicator
-                    key={note.id}
-                    note={note}
-                    handleDragStart={handleNoteDragStart}
-                />
-            ))}
-            <NoteDropIndicator id="-1" noteStatus={type} />
+            <AnimatePresence>
+                {notes.map((note) => (
+                    <NoteWithIndicator
+                        key={note.id}
+                        note={note}
+                        handleDragStart={handleNoteDragStart}
+                    />
+                ))}
+                <NoteDropIndicator id="-1" noteStatus={type} />
+            </AnimatePresence>
         </div>
     )
 }
