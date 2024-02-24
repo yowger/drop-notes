@@ -40,44 +40,50 @@ export default function Note({
 
     return (
         <>
-            <motion.div
-                layout
-                layoutId={note.id}
-                transition={{ layout: { duration: 0.25 }, ease: "easeOut" }}
-                exit={{ opacity: 0, scale: 0.75 }}
+            <div
                 draggable={isNoteOpened ? false : true}
                 onDragStart={(event) => handleDragStart(note, event)}
-                className={`group/item bg-white border rounded-md p-3 flex flex-col ${
-                    isNoteOpened &&
-                    "fixed z-20 h-3/6 w-4/5 md:w-2/4 lg:w-1/3 m-auto inset-x-0 inset-y-0"
-                }`}
             >
                 <motion.div
-                    layout="position"
-                    className="flex items-center mb-2"
+                    layout
+                    layoutId={note.id}
+                    transition={{ layout: { duration: 0.25 }, ease: "easeOut" }}
+                    exit={{ opacity: 0, scale: 0.75 }}
+                    className={`group/item bg-white border rounded-md p-3 flex flex-col ${
+                        isNoteOpened &&
+                        "fixed z-20 h-3/6 w-4/5 md:w-2/4 lg:w-1/3 m-auto inset-x-0 inset-y-0"
+                    }`}
                 >
-                    <NoteTitle title={note.title} isNoteOpened={isNoteOpened} />
-
-                    {isNoteOpened ? null : (
-                        <NoteHeaderMenu
-                            handleClick={handleClick}
+                    <motion.div
+                        layout="position"
+                        className="flex items-center mb-2"
+                    >
+                        <NoteTitle
+                            title={note.title}
                             isNoteOpened={isNoteOpened}
+                        />
+
+                        {isNoteOpened ? null : (
+                            <NoteHeaderMenu
+                                handleClick={handleClick}
+                                isNoteOpened={isNoteOpened}
+                            />
+                        )}
+                    </motion.div>
+
+                    <NoteDescription
+                        description={note.description}
+                        isNoteOpened={isNoteOpened}
+                    />
+
+                    {isNoteOpened && (
+                        <NoteMenu
+                            handleDelete={handleDelete}
+                            handleUpdate={handleUpdate}
                         />
                     )}
                 </motion.div>
-
-                <NoteDescription
-                    description={note.description}
-                    isNoteOpened={isNoteOpened}
-                />
-
-                {isNoteOpened && (
-                    <NoteMenu
-                        handleDelete={handleDelete}
-                        handleUpdate={handleUpdate}
-                    />
-                )}
-            </motion.div>
+            </div>
 
             {isNoteOpened && <Background handleClick={handleClose} />}
         </>
