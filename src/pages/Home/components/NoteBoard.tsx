@@ -1,13 +1,14 @@
+import { useContext } from "react"
 import { IconCheck, IconSticker2, IconClockHour4 } from "@tabler/icons-react"
 
 import { NOTE_STATUS } from "../constants"
 
+import NotesContext from "../context/NotesContext"
+
 import NoteSection from "./NoteSection"
 
-import useNotes from "../hooks/useNotes"
-
 export default function NoteBoard() {
-    const { notes } = useNotes()
+    const { notes } = useContext(NotesContext)
 
     return (
         <div className="grid grid-cols-3">

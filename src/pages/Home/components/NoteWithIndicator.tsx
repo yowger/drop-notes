@@ -1,27 +1,18 @@
 import Note from "./Note"
 import NoteDropIndicator from "./NoteDropIndicator"
 
-import type { INote } from "../types/note"
+import type { INoteProps } from "./Note"
 
-interface INoteWithIndicatorProps {
-    note: INote
-
-    handleDragStart?: (
-        note: INote,
-        event: React.DragEvent<HTMLDivElement>
-    ) => void
-}
+interface INoteWithIndicatorProps extends INoteProps {}
 
 export default function NoteWithIndicator({
     note,
-
-    handleDragStart,
+    ...otherProps
 }: INoteWithIndicatorProps) {
     return (
         <>
             <NoteDropIndicator id={note.id} noteStatus={note.status} />
-
-            <Note note={note} handleDragStart={handleDragStart} />
+            <Note note={note} {...otherProps} />
         </>
     )
 }

@@ -3,6 +3,7 @@ import { AnimatePresence } from "framer-motion"
 
 import useNotes from "../hooks/useNotes"
 
+import { toastUndo } from "../../../components/Toast/Toast"
 import NoteDropIndicator from "./NoteDropIndicator"
 import NoteWithIndicator from "./NoteWithIndicator"
 
@@ -14,7 +15,7 @@ interface INoteListProps {
 }
 
 export default function NoteList({ notes, type }: INoteListProps) {
-    const { reorderNotes } = useNotes()
+    const { addNoteAtIndex, deleteNote, reorderNotes } = useNotes()
     const [isDragOVer, setIsDragOver] = useState(false)
 
     const handleNoteDragStart = (
@@ -108,6 +109,19 @@ export default function NoteList({ notes, type }: INoteListProps) {
         })
     }
 
+    const handleDeleteNote = (note: INote) => {
+        deleteNote(note.id)
+
+        toastUndo({
+            message: "Note deleted",
+            handleCallback: () => handleDeleteNoteCallback(note),
+        })
+    }
+
+    const handleDeleteNoteCallback = (note: INote) => {
+        addNoteAtIndex(note, note.id)
+    }
+
     return (
         <div
             onDragOver={handleDragOver}
@@ -123,6 +137,7 @@ export default function NoteList({ notes, type }: INoteListProps) {
                         key={note.id}
                         note={note}
                         handleDragStart={handleNoteDragStart}
+                        handleDeleteNote={handleDeleteNote}
                     />
                 ))}
                 <NoteDropIndicator id="-1" noteStatus={type} />

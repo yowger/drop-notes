@@ -5,23 +5,23 @@ import { IconDots } from "@tabler/icons-react"
 
 import Background from "../../../components/Background/Background"
 import Button from "../../../components/Elements/Button"
-import { toastUndo } from "../../../components/Toast/Toast"
-
-import useNotes from "../hooks/useNotes"
 
 import type { INote } from "../types/note"
 
-interface INoteProps {
+export interface INoteProps {
     note: INote
+    handleDeleteNote: (noteId: string) => void
     handleDragStart: (
         note: INote,
         event: React.DragEvent<HTMLDivElement>
     ) => void
 }
 
-export default function Note({ note, handleDragStart }: INoteProps) {
-    const { addNoteAtIndex, deleteNote } = useNotes()
-
+export default function Note({
+    note,
+    handleDragStart,
+    handleDeleteNote,
+}: INoteProps) {
     const [isNoteOpened, setIsNoteOpened] = useState(false)
 
     const handleClick = () => {
@@ -32,17 +32,8 @@ export default function Note({ note, handleDragStart }: INoteProps) {
         setIsNoteOpened(false)
     }
 
-    const handleCallback = (note: INote) => {
-        addNoteAtIndex(note, note.id)
-    }
-
     const handleDelete = () => {
-        deleteNote(note.id)
-
-        toastUndo({
-            message: "Note deleted",
-            handleCallback: () => handleCallback(note),
-        })
+        handleDeleteNote(note)
     }
 
     const handleUpdate = () => {}
