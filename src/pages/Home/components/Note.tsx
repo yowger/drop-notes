@@ -10,7 +10,7 @@ import type { INote } from "../types/note"
 
 export interface INoteProps {
     note: INote
-    handleDeleteNote: (noteId: string) => void
+    handleDeleteNote: (note: INote) => void
     handleDragStart: (
         note: INote,
         event: React.DragEvent<HTMLDivElement>
