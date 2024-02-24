@@ -7,20 +7,20 @@ import type { INote, TNoteStatus } from "../types/note"
 export default function useNotes() {
     const { notes, setNotes } = useContext(NotesContext)
 
-    const addNote = (newNote: INote, index?: string) => {
-        if (index) {
-            setNotes((prevNotes) => {
-                const prevNotesCopy = [...prevNotes]
+    const addNote = (newNote: INote) => {
+        setNotes((prevNotes) => [...prevNotes, newNote])
+    }
 
-                const noteIdIndex = notes.findIndex((note) => note.id === index)
+    const addNoteAtIndex = (newNote: INote, index: string) => {
+        setNotes((prevNotes) => {
+            const prevNotesCopy = [...prevNotes]
 
-                prevNotesCopy.splice(noteIdIndex, 0, newNote)
+            const noteIdIndex = notes.findIndex((note) => note.id === index)
 
-                return prevNotesCopy
-            })
-        } else {
-            setNotes((prevNotes) => [...prevNotes, newNote])
-        }
+            prevNotesCopy.splice(noteIdIndex, 0, newNote)
+
+            return prevNotesCopy
+        })
     }
 
     const updateNote = (id: string, updatedNote: INote) => {
@@ -61,5 +61,12 @@ export default function useNotes() {
         setNotes(notesCopy)
     }
 
-    return { notes, addNote, updateNote, deleteNote, reorderNotes }
+    return {
+        notes,
+        addNote,
+        addNoteAtIndex,
+        updateNote,
+        deleteNote,
+        reorderNotes,
+    }
 }

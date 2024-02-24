@@ -1,6 +1,6 @@
 import { toast } from "react-toastify"
 
-import FeedbackUndo from "./FeedbackUndo"
+import FeedBackUndo from "./FeedbackUndo"
 
 import type { IFeedBackUndoProps } from "./FeedbackUndo"
 
@@ -10,7 +10,7 @@ const toastUndo = ({
     toastProps,
 }: IFeedBackUndoProps) => {
     return toast(
-        <FeedbackUndo message={message} handleCallback={handleCallback} />,
+        <FeedBackUndo message={message} handleCallback={handleCallback} />,
         { ...toastProps }
     )
 }

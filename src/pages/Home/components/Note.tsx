@@ -4,7 +4,8 @@ import { motion } from "framer-motion"
 import { IconDots } from "@tabler/icons-react"
 
 import Background from "../../../components/Background/Background"
-import { toastUndo } from "../../../components/toast/Toast"
+import Button from "../../../components/Elements/Button"
+import { toastUndo } from "../../../components/Toast/Toast"
 
 import useNotes from "../hooks/useNotes"
 
@@ -19,7 +20,7 @@ interface INoteProps {
 }
 
 export default function Note({ note, handleDragStart }: INoteProps) {
-    const { addNote, deleteNote } = useNotes()
+    const { addNoteAtIndex, deleteNote } = useNotes()
 
     const [isNoteOpened, setIsNoteOpened] = useState(false)
 
@@ -32,7 +33,7 @@ export default function Note({ note, handleDragStart }: INoteProps) {
     }
 
     const handleCallback = (note: INote) => {
-        addNote(note, note.id)
+        addNoteAtIndex(note, note.id)
     }
 
     const handleDelete = () => {
@@ -159,18 +160,12 @@ const NoteMenu = ({
             animate={{ opacity: 1 }}
             className="flex justify-end gap-3 mt-4"
         >
-            <button
-                onClick={handleDelete}
-                className="border rounded px-4 py-2 text-sm"
-            >
+            <Button variant="outline" onClick={handleDelete}>
                 Delete
-            </button>
-            <button
-                onClick={handleUpdate}
-                className="bg-blue-400 text-white rounded px-4 py-2 text-sm"
-            >
+            </Button>
+            <Button variant="primary" onClick={handleUpdate}>
                 Update
-            </button>
+            </Button>
         </motion.div>
     )
 }
