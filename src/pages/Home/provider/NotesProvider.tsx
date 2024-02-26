@@ -19,18 +19,25 @@ export default function NotesContextProvider({
     const [notes, setNotes] = useLocalStorage<INote[]>("notes", [])
 
     useEffect(() => {
-        if (notesData !== null) {
-            setNotes(notesData)
-        } else {
-            import("../../../database/db.json")
-                .then((databaseModule) => {
-                    const database = databaseModule.default
-                    setNotes(database.notes as INote[])
-                })
-                .catch((error) => {
-                    console.error("Error importing database:", error)
-                })
+        const fetchNotes = async () => {
+            try {
+                if (notesData !== null) {
+                    setNotes(notesData)
+                } else {
+                    const databaseModule = await import(
+                        "../../../database/db.json"
+                    )
+                    const database = databaseModule.default as {
+                        notes: INote[]
+                    }
+                    setNotes(database.notes)
+                }
+            } catch (error) {
+                console.error("Error fetching notes:", error)
+            }
         }
+
+        fetchNotes()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
