@@ -1,88 +1,134 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import type { Dispatch, SetStateAction } from "react"
 
-interface IUseLocalStorageOptions {
+import { useEventCallback } from "./useEventCallback"
+import { useEventListener } from "./useEventListener"
+
+declare global {
+    interface WindowEventMap {
+        "local-storage": CustomEvent
+    }
+}
+
+interface UseLocalStorageOptions<T> {
+    serializer?: (value: T) => string
+    deserializer?: (value: string) => T
     initializeWithValue?: boolean
 }
+
+const IS_SERVER = typeof window === "undefined"
 
 export function useLocalStorage<T>(
     key: string,
     initialValue: T | (() => T),
-    options: IUseLocalStorageOptions = {}
+    options: UseLocalStorageOptions<T> = {}
 ): [T, Dispatch<SetStateAction<T>>] {
     const { initializeWithValue = true } = options
 
-    const serializer = (value: T) => {
-        return JSON.stringify(value)
-    }
+    const serializer = useCallback<(value: T) => string>(
+        (value) => {
+            if (options.serializer) {
+                return options.serializer(value)
+            }
 
-    const deserializer = (value: string): T => {
-        if (value === "undefined") {
-            return undefined as unknown as T
-        }
+            return JSON.stringify(value)
+        },
+        [options]
+    )
 
-        const defaultValue: T =
-            initialValue instanceof Function ? initialValue() : initialValue
+    const deserializer = useCallback<(value: string) => T>(
+        (value) => {
+            if (options.deserializer) {
+                return options.deserializer(value)
+            }
 
-        let parsedValue: unknown
-        try {
-            parsedValue = JSON.parse(value)
-        } catch (error) {
-            console.error("Error parsing JSON:", error)
-            return defaultValue
-        }
+            if (value === "undefined") {
+                return undefined as unknown as T
+            }
 
-        return parsedValue as T
-    }
+            const defaultValue =
+                initialValue instanceof Function ? initialValue() : initialValue
 
-    const readValue = (): T => {
-        console.log("reading value")
+            let parsed: unknown
+            try {
+                parsed = JSON.parse(value)
+            } catch (error) {
+                console.error("Error parsing JSON:", error)
+                return defaultValue
+            }
+
+            return parsed as T
+        },
+        [options, initialValue]
+    )
+
+    const readValue = useCallback((): T => {
         const initialValueToUse =
             initialValue instanceof Function ? initialValue() : initialValue
 
-        try {
-            const storageData = window.localStorage.getItem(key)
-
-            return storageData ? deserializer(storageData) : initialValueToUse
-        } catch (error) {
-            console.log(
-                `Error reading from localStorage with key "${key}": `,
-                error
-            )
-
+        if (IS_SERVER) {
             return initialValueToUse
         }
-    }
+
+        try {
+            const raw = window.localStorage.getItem(key)
+            return raw ? deserializer(raw) : initialValueToUse
+        } catch (error) {
+            console.warn(`Error reading localStorage key “${key}”:`, error)
+            return initialValueToUse
+        }
+    }, [initialValue, key, deserializer])
 
     const [storedValue, setStoredValue] = useState(() => {
         if (initializeWithValue) {
             return readValue()
         }
-
         return initialValue instanceof Function ? initialValue() : initialValue
     })
 
-    const setValue: Dispatch<SetStateAction<T>> = (value) => {
-        console.log("setting value")
+    const setValue: Dispatch<SetStateAction<T>> = useEventCallback((value) => {
+        if (IS_SERVER) {
+            console.warn(
+                `Tried setting localStorage key “${key}” even though environment is not a client`
+            )
+        }
+
         try {
             const newValue =
                 value instanceof Function ? value(readValue()) : value
 
             window.localStorage.setItem(key, serializer(newValue))
 
-            handleStorageChange(key)
+            setStoredValue(newValue)
+
+            window.dispatchEvent(new StorageEvent("local-storage", { key }))
         } catch (error) {
             console.warn(`Error setting localStorage key “${key}”:`, error)
         }
-    }
+    })
 
-    const handleStorageChange = (key: string) => {
-        console.log("storage change")
-        if (!key) return
-
+    useEffect(() => {
         setStoredValue(readValue())
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [key])
+
+    const handleStorageChange = useCallback(
+        (event: StorageEvent | CustomEvent) => {
+            if (
+                (event as StorageEvent)?.key &&
+                (event as StorageEvent).key !== key
+            ) {
+                return
+            }
+            setStoredValue(readValue())
+        },
+        [key, readValue]
+    )
+
+    useEventListener("storage", handleStorageChange)
+
+    useEventListener("local-storage", handleStorageChange)
 
     return [storedValue, setValue]
 }

@@ -1,4 +1,4 @@
-import database from "../../../database/db.json"
+import { useEffect } from "react"
 
 import NotesContext from "../context/NotesContext"
 
@@ -6,6 +6,7 @@ import { useLocalStorage } from "../../../hooks/useLocalStorage"
 
 import type { INotesContext } from "../context/NotesContext"
 import type { INote } from "../types/note"
+import { useReadLocalStorage } from "../../../hooks/useReadLocalStorage"
 
 interface IAuthContextProviderProps {
     children: React.ReactNode
@@ -14,8 +15,24 @@ interface IAuthContextProviderProps {
 export default function NotesContextProvider({
     children,
 }: IAuthContextProviderProps) {
-    const noteData = database.notes as INote[]
-    const [notes, setNotes] = useLocalStorage<INote[]>("notes", noteData)
+    const notesData = useReadLocalStorage<INote[]>("notes") || null
+    const [notes, setNotes] = useLocalStorage<INote[]>("notes", [])
+
+    useEffect(() => {
+        if (notesData !== null) {
+            setNotes(notesData)
+        } else {
+            import("../../../database/db.json")
+                .then((databaseModule) => {
+                    const database = databaseModule.default
+                    setNotes(database.notes as INote[])
+                })
+                .catch((error) => {
+                    console.error("Error importing database:", error)
+                })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const notesContextValue: INotesContext = {
         notes,

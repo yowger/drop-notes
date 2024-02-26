@@ -15,7 +15,6 @@ interface INoteListProps {
 }
 
 export default function NoteList({ notes, type }: INoteListProps) {
-    const [render, setRender] = useState(0)
     const { addNoteAtIndex, updateNote, deleteNote, reorderNotes } = useNotes()
     const [isDragOVer, setIsDragOver] = useState(false)
 
@@ -136,13 +135,6 @@ export default function NoteList({ notes, type }: INoteListProps) {
                 isDragOVer ? "border-slate-200" : "border-transparent"
             }`}
         >
-            <button
-                onClick={() =>
-                    setRender((prevRender) => (prevRender = prevRender + 1))
-                }
-            >
-                RENDER
-            </button>
             <AnimatePresence>
                 {notes.map((note) => (
                     <NoteWithIndicator
