@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import DOMPurify from "dompurify"
 import { motion } from "framer-motion"
 
 import { IconDots } from "@tabler/icons-react"
@@ -11,6 +12,7 @@ import type { INote } from "../types/note"
 export interface INoteProps {
     note: INote
     handleDeleteNote: (note: INote) => void
+    handleUpdateNote: (noteId: string, updatedNote: INote) => void
     handleDragStart: (
         note: INote,
         event: React.DragEvent<HTMLDivElement>
@@ -20,9 +22,35 @@ export interface INoteProps {
 export default function Note({
     note,
     handleDragStart,
+    handleUpdateNote,
     handleDeleteNote,
 }: INoteProps) {
     const [isNoteOpened, setIsNoteOpened] = useState(false)
+    const [title, setTitle] = useState(note.title)
+    const [description, setDescription] = useState(note.description)
+    const hasRenderedRef = useRef(false)
+
+    const handleTitleBlur = useCallback(
+        (event: React.FocusEvent<HTMLHeadingElement>) => {
+            const sanitizeTitle = DOMPurify.sanitize(
+                event.currentTarget.innerHTML
+            )
+
+            setTitle(sanitizeTitle)
+        },
+        []
+    )
+
+    const handleDescriptionBlur = useCallback(
+        (event: React.FocusEvent<HTMLHeadingElement>) => {
+            const sanitizeDescription = DOMPurify.sanitize(
+                event.currentTarget.innerHTML
+            )
+
+            setDescription(sanitizeDescription)
+        },
+        []
+    )
 
     const handleClick = () => {
         setIsNoteOpened((prev) => !prev)
@@ -32,11 +60,33 @@ export default function Note({
         setIsNoteOpened(false)
     }
 
+    const handleUpdate = () => {
+        const updatedNote: INote = {
+            id: note.id,
+            status: note.status,
+            title,
+            description,
+        }
+
+        handleUpdateNote(note.id, updatedNote)
+    }
+
     const handleDelete = () => {
         handleDeleteNote(note)
     }
 
-    const handleUpdate = () => {}
+    useEffect(() => {}, [])
+
+    useEffect(() => {
+        hasRenderedRef.current = true
+    }, [])
+
+    useEffect(() => {
+        if (!hasRenderedRef.current) return
+
+        handleUpdate()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [title, description])
 
     return (
         <>
@@ -59,8 +109,9 @@ export default function Note({
                         className="flex items-center mb-2"
                     >
                         <NoteTitle
-                            title={note.title}
+                            title={title}
                             isNoteOpened={isNoteOpened}
+                            handleBlur={handleTitleBlur}
                         />
 
                         {isNoteOpened ? null : (
@@ -72,14 +123,15 @@ export default function Note({
                     </motion.div>
 
                     <NoteDescription
-                        description={note.description}
+                        description={description}
                         isNoteOpened={isNoteOpened}
+                        handleBlur={handleDescriptionBlur}
                     />
 
                     {isNoteOpened && (
                         <NoteMenu
+                            handleClose={handleClose}
                             handleDelete={handleDelete}
-                            handleUpdate={handleUpdate}
                         />
                     )}
                 </motion.div>
@@ -93,19 +145,23 @@ export default function Note({
 const NoteTitle = ({
     title,
     isNoteOpened,
+    handleBlur,
 }: {
     title: string
     isNoteOpened: boolean
+    handleBlur: (event: React.FocusEvent<HTMLHeadingElement>) => void
 }) => {
     return (
         <motion.h1
             layout="position"
+            contentEditable={isNoteOpened}
+            suppressContentEditableWarning={true}
+            onBlur={handleBlur}
+            dangerouslySetInnerHTML={{ __html: title }}
             className={`text-base font-medium text-slate-900 flex-1 ${
                 isNoteOpened ? "" : "line-clamp-2"
             }`}
-        >
-            {title}
-        </motion.h1>
+        />
     )
 }
 
@@ -128,41 +184,47 @@ const NoteHeaderMenu = ({
 const NoteDescription = ({
     description,
     isNoteOpened,
+    handleBlur,
 }: {
     description: string
     isNoteOpened: boolean
+    handleBlur: (event: React.FocusEvent<HTMLParagraphElement>) => void
 }) => {
     return (
         <motion.p
             layout="position"
+            contentEditable={isNoteOpened}
+            suppressContentEditableWarning={true}
+            onBlur={handleBlur}
+            dangerouslySetInnerHTML={{ __html: description }}
             className={`text-[14px] text-slate-600 flex-1 overflow-hidden ${
                 isNoteOpened ? "overflow-y-auto" : "line-clamp-5"
             }`}
-        >
-            {description}
-        </motion.p>
+        />
     )
 }
 
 const NoteMenu = ({
+    handleClose,
     handleDelete,
-    handleUpdate,
 }: {
+    handleClose: React.MouseEventHandler<HTMLButtonElement>
     handleDelete: React.MouseEventHandler<HTMLButtonElement>
-    handleUpdate: React.MouseEventHandler<HTMLButtonElement>
 }) => {
     return (
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex justify-end gap-3 mt-4"
+            className="flex justify-end mt-4 items-center"
         >
-            <Button variant="outline" onClick={handleDelete}>
-                Delete
-            </Button>
-            <Button variant="primary" onClick={handleUpdate}>
-                Update
-            </Button>
+            <div className="space-x-3">
+                <Button variant="ghost" onClick={handleDelete}>
+                    Delete
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                    Confirm
+                </Button>
+            </div>
         </motion.div>
     )
 }

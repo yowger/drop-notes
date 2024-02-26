@@ -15,7 +15,8 @@ interface INoteListProps {
 }
 
 export default function NoteList({ notes, type }: INoteListProps) {
-    const { addNoteAtIndex, deleteNote, reorderNotes } = useNotes()
+    const [render, setRender] = useState(0)
+    const { addNoteAtIndex, updateNote, deleteNote, reorderNotes } = useNotes()
     const [isDragOVer, setIsDragOver] = useState(false)
 
     const handleNoteDragStart = (
@@ -109,6 +110,10 @@ export default function NoteList({ notes, type }: INoteListProps) {
         })
     }
 
+    const handleUpdateNote = (noteId: string, updatedNote: INote) => {
+        updateNote(noteId, updatedNote)
+    }
+
     const handleDeleteNote = (note: INote) => {
         deleteNote(note.id)
 
@@ -131,12 +136,20 @@ export default function NoteList({ notes, type }: INoteListProps) {
                 isDragOVer ? "border-slate-200" : "border-transparent"
             }`}
         >
+            <button
+                onClick={() =>
+                    setRender((prevRender) => (prevRender = prevRender + 1))
+                }
+            >
+                RENDER
+            </button>
             <AnimatePresence>
                 {notes.map((note) => (
                     <NoteWithIndicator
                         key={note.id}
                         note={note}
                         handleDragStart={handleNoteDragStart}
+                        handleUpdateNote={handleUpdateNote}
                         handleDeleteNote={handleDeleteNote}
                     />
                 ))}

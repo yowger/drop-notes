@@ -1,8 +1,8 @@
-import { useState } from "react"
-
 import database from "../../../database/db.json"
 
 import NotesContext from "../context/NotesContext"
+
+import { useLocalStorage } from "../../../hooks/useLocalStorage"
 
 import type { INotesContext } from "../context/NotesContext"
 import type { INote } from "../types/note"
@@ -14,7 +14,8 @@ interface IAuthContextProviderProps {
 export default function NotesContextProvider({
     children,
 }: IAuthContextProviderProps) {
-    const [notes, setNotes] = useState<INote[]>(database.notes as INote[])
+    const noteData = database.notes as INote[]
+    const [notes, setNotes] = useLocalStorage<INote[]>("notes", noteData)
 
     const notesContextValue: INotesContext = {
         notes,

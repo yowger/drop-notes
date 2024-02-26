@@ -1,8 +1,6 @@
 import { createBrowserRouter } from "react-router-dom"
 
 import AppLayout from "../layouts/AppLayout"
-import Home from "../pages/Home/Home"
-import NotFound from "../pages/NotFound/NotFound"
 
 const appRouter = createBrowserRouter([
     {
@@ -11,7 +9,7 @@ const appRouter = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home />,
+                lazy: () => import("../pages/Home/Home"),
             },
             {
                 path: "about",
@@ -21,7 +19,7 @@ const appRouter = createBrowserRouter([
     },
     {
         path: "*",
-        element: <NotFound />,
+        lazy: () => import("../pages/NotFound/NotFound"),
     },
 ])
 

@@ -14,15 +14,18 @@
     "@heroicons/react": "^2.1.1",
     "@tabler/icons-react": "^2.47.0",
     "axios": "^1.6.7",
+    "dompurify": "^3.0.9",
     "framer-motion": "^11.0.5",
     "json-server": "^1.0.0-alpha.23",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1",
     "react-toastify": "^10.0.4",
+    "sanitize-html": "^2.12.1",
     "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.5",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
