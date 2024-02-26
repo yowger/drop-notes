@@ -3,10 +3,10 @@ import { useEffect } from "react"
 import NotesContext from "../context/NotesContext"
 
 import { useLocalStorage } from "../../../hooks/useLocalStorage"
+import { useReadLocalStorage } from "../../../hooks/useReadLocalStorage"
 
 import type { INotesContext } from "../context/NotesContext"
 import type { INote } from "../types/note"
-import { useReadLocalStorage } from "../../../hooks/useReadLocalStorage"
 
 interface IAuthContextProviderProps {
     children: React.ReactNode
