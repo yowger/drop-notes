@@ -16,10 +16,7 @@ export default function IconButton({
     return (
         <Button
             roundness="full"
-            className={twMerge(
-                "p-2",
-                className
-            )}
+            className={twMerge("p-2", className)}
             {...otherProps}
         >
             {children}
