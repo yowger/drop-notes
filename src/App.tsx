@@ -19,7 +19,7 @@ export default function App() {
                 pauseOnFocusLoss
                 position="bottom-left"
                 pauseOnHover={true}
-                className="w-[80%] md:w-[50%] text-slate-50 text-sm"
+                className="w-[80%] md:max-w-sm text-slate-50 text-sm"
                 toastClassName="shadow-sm bg-neutral-600 text-neutral-50"
                 bodyClassName="mr-3"
                 closeButton={CloseButton}
