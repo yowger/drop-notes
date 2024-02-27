@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify"
 
 import appRouter from "./router/appRouter"
 import PageLoader from "./components/PageLoader/PageLoader"
-import CloseButton from "./components/Elements/CloseButton"
+import CloseButton from "./components/elements/CloseButton"
 
 import "react-toastify/dist/ReactToastify.css"
 

@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { IconDots } from "@tabler/icons-react"
 
 import Background from "../../../components/Background/Background"
-import Button from "../../../components/Elements/Button"
+import Button from "../../../components/elements/Button"
 
 import type { INote } from "../types/note"
 

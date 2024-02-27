@@ -7,8 +7,8 @@ import { NOTE_STATUS } from "../constants/note.ts"
 
 import useNotes from "../hooks/useNotes.ts"
 
-import Button from "../../../components/Elements/Button"
-import IconButton from "../../../components/Elements/IconButton"
+import Button from "../../../components/elements/Button.tsx"
+import IconButton from "../../../components/elements/IconButton.tsx"
 
 import type { TNoteStatus } from "../types/note"
 
