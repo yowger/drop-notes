@@ -15,8 +15,9 @@ interface INoteListProps {
 }
 
 export default function NoteList({ notes, type }: INoteListProps) {
-    const { addNoteAtIndex, updateNote, deleteNote, reorderNotes } = useNotes()
     const [isDragOVer, setIsDragOver] = useState(false)
+    
+    const { addNoteAtIndex, updateNote, deleteNote, reorderNotes } = useNotes()
 
     const handleNoteDragStart = (
         note: INote,

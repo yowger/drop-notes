@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { IconCheck, IconSticker2, IconClockHour4 } from "@tabler/icons-react"
 
-import { NOTE_STATUS } from "../constants"
+import { NOTE_STATUS } from "../constants/note"
 
 import NotesContext from "../context/NotesContext"
 

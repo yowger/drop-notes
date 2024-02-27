@@ -1,0 +1,7 @@
+[contenteditable] {
+    outline: 0px solid transparent;
+}
+[contentEditable="true"]:empty:before {
+    content: attr(data-placeholder);
+    color: gray;
+}

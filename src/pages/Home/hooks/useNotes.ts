@@ -7,6 +7,15 @@ import type { INote, TNoteStatus } from "../types/note"
 export default function useNotes() {
     const { notes, setNotes } = useContext(NotesContext)
 
+    const generateNoteId = (): string => {
+        const maxId = notes.reduce((max, note) => {
+            const noteId = parseInt(note.id, 10)
+            return noteId > max ? noteId : max
+        }, 0)
+
+        return String(maxId + 1)
+    }
+
     const addNote = (newNote: INote) => {
         setNotes((prevNotes) => [...prevNotes, newNote])
     }
@@ -63,6 +72,7 @@ export default function useNotes() {
 
     return {
         notes,
+        generateNoteId,
         addNote,
         addNoteAtIndex,
         updateNote,

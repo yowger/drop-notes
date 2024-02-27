@@ -215,16 +215,14 @@ const NoteMenu = ({
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex justify-end mt-4 items-center"
+            className="flex justify-between mt-4 items-center"
         >
-            <div className="space-x-3">
-                <Button variant="ghost" onClick={handleDelete}>
-                    Delete
-                </Button>
-                <Button variant="primary" onClick={handleClose}>
-                    Confirm
-                </Button>
-            </div>
+            <Button variant="ghost" onClick={handleDelete}>
+                Delete
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+                Confirm
+            </Button>
         </motion.div>
     )
 }
